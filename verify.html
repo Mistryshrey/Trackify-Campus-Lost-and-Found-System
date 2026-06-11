@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify & Claim - Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .verify-page {
+            padding: 100px 20px 60px;
+            min-height: 100vh;
+            background: var(--bg-color, #101010);
+        }
+
+        .verify-wrapper {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .verify-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .verify-header .page-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        .verify-header h1 {
+            font-size: 2rem;
+            margin: 0 0 10px;
+            color: var(--text-color, #eee);
+        }
+
+        .verify-header p {
+            color: var(--gray-color, #aaa);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* ── ROLE SELECTOR ── */
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .role-card {
+            background: var(--card-bg, #16213e);
+            border: 2px solid var(--border-color, #2a2a4a);
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .role-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .role-card.active {
+            border-color: var(--primary-color);
+            background: var(--card-hover-bg, #1e2a4a);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .role-card .role-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .role-card h3 {
+            margin: 0 0 6px;
+            font-size: 1rem;
+            color: var(--text-color, #eee);
+        }
+
+        .role-card p {
+            margin: 0;
+            font-size: 0.82rem;
+            color: var(--gray-color, #aaa);
+            line-height: 1.4;
+        }
+
+        /* ── FORM CARD ── */
+        .verify-card {
+            background: var(--card-bg, #16213e);
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .verify-card h2 {
+            margin: 0 0 6px;
+            font-size: 1.3rem;
+            color: var(--text-color, #eee);
+        }
+
+        .verify-card .card-desc {
+            color: var(--gray-color, #aaa);
+            font-size: 0.9rem;
+            margin: 0 0 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+            font-size: 0.9rem;
+            color: var(--text-color, #ddd);
+        }
+
+        .form-group .help-text {
+            font-size: 0.8rem;
+            color: var(--gray-color, #888);
+            margin-top: 5px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+        }
+
+        .input-with-icon input {
+            padding-left: 40px;
+        }
+
+        .code-input {
+            font-family: monospace;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        /* ── ATTEMPTS INDICATOR ── */
+        .attempts-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: var(--gray-color, #aaa);
+        }
+
+        .attempt-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border-color, #2a2a4a);
+        }
+
+        .attempt-dot.used {
+            background: #e74c3c;
+        }
+
+        /* ── SUCCESS STATE ── */
+        .success-card {
+            background: var(--card-bg, #16213e);
+            border-radius: 16px;
+            padding: 40px 35px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color, #2a2a4a);
+            text-align: center;
+            display: none;
+        }
+
+        .success-card.show {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-badge {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 20px;
+        }
+
+        .success-card h2 {
+            color: #2ecc71;
+            margin: 0 0 10px;
+        }
+
+        .success-card p {
+            color: var(--gray-color, #aaa);
+            margin: 0 0 25px;
+        }
+
+        .contact-card {
+            background: rgba(46, 204, 113, 0.08);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 12px;
+            padding: 20px 25px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .contact-card h4 {
+            margin: 0 0 15px;
+            color: #2ecc71;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color, #2a2a4a);
+            font-size: 0.95rem;
+        }
+
+        .contact-row:last-child {
+            border-bottom: none;
+        }
+
+        .contact-row .label {
+            color: var(--gray-color, #888);
+            width: 80px;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+        }
+
+        .contact-row .value {
+            color: var(--text-color, #eee);
+            font-weight: 500;
+        }
+
+        .safety-box {
+            background: rgba(243, 156, 18, 0.1);
+            border-left: 4px solid var(--primary-color, #f39c12);
+            border-radius: 0 10px 10px 0;
+            padding: 15px 20px;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .safety-box h4 {
+            margin: 0 0 10px;
+            font-size: 0.9rem;
+            color: var(--primary-color, #f39c12);
+        }
+
+        .safety-box ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--gray-color, #aaa);
+            font-size: 0.88rem;
+            line-height: 1.8;
+        }
+
+        /* ── HELP SECTION ── */
+        .help-section {
+            background: var(--card-bg, #16213e);
+            border-radius: 16px;
+            padding: 30px 35px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color, #2a2a4a);
+        }
+
+        .help-section h3 {
+            margin: 0 0 20px;
+            font-size: 1rem;
+            color: var(--gray-color, #888);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .help-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .help-item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .help-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .help-item h4 {
+            margin: 0 0 4px;
+            font-size: 0.95rem;
+            color: var(--text-color, #000000);
+        }
+
+        .help-item p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--gray-color, #000000);
+            line-height: 1.5;
+        }
+
+        /* ── ERROR STATE ── */
+        .error-banner {
+            background: rgba(231, 76, 60, 0.15);
+            border: 1px solid rgba(231, 76, 60, 0.4);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-banner.show {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .role-selector { grid-template-columns: 1fr; }
+            .verify-card { padding: 25px 20px; }
+            .success-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" style=" margin-top: 25px; height: 69px; width: 150px;"></a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="lost.html">Report Lost</a></li>
+                    <li><a href="found.html">Report Found</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="verify.html" class="active">Verify / Claim</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="verify-page">
+        <div class="verify-wrapper">
+
+            <!-- Header -->
+            <div class="verify-header">
+                <div class="page-icon">🔐</div>
+                <h1>Verify & Claim</h1>
+                <p>Securely verify your identity to claim your lost item</p>
+            </div>
+
+            <!-- Role Selector -->
+            <div class="role-selector" id="roleSelector">
+                <div class="role-card active" id="roleClaimer" onclick="setRole('claimer')">
+                    <div class="role-icon">😟</div>
+                    <h3>I Lost Something</h3>
+                    <p>I have a verification code and want to claim my item</p>
+                </div>
+                <div class="role-card" id="roleFinder" onclick="setRole('finder')">
+                    <div class="role-icon">🙌</div>
+                    <h3>I Found Something</h3>
+                    <p>I reported a found item and want to check for matches</p>
+                </div>
+            </div>
+
+            <!-- Claim Form (shown to person who lost item) -->
+            <div class="verify-card" id="claimerForm">
+                <h2>🎯 Claim Your Item</h2>
+                <p class="card-desc">Enter the details from when you reported your lost item. All 3 fields must match our records.</p>
+
+                <div class="error-banner" id="claimError">
+                    <span>⚠️</span>
+                    <span id="claimErrorText">Invalid details. Please check and try again.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Verification Code</label>
+                    <input type="text" id="claimCode" class="form-control code-input"
+                           placeholder="e.g. 99E9DC69" maxlength="8"
+                           oninput="this.value = this.value.toUpperCase()">
+                    <div class="help-text">The 8-character code you received after reporting</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon">📧</span>
+                        <input type="email" id="claimEmail" class="form-control"
+                               placeholder="Email you used when reporting">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🔐 Secret Answer</label>
+                    <input type="text" id="claimSecret" class="form-control"
+                           placeholder="The unique detail you provided about your item">
+                    <div class="help-text">e.g. enrollment number, IMEI last 4 digits, unique marking</div>
+                </div>
+
+                <div class="attempts-bar" id="attemptsBar">
+                    <span>Attempts remaining:</span>
+                    <span class="attempt-dot" id="dot1"></span>
+                    <span class="attempt-dot" id="dot2"></span>
+                    <span class="attempt-dot" id="dot3"></span>
+                </div>
+
+                <button class="btn btn-primary btn-submit" id="claimBtn" onclick="submitClaim()">
+                    Verify & Claim Item
+                </button>
+            </div>
+
+            <!-- Finder Form (shown to person who found item) -->
+            <div class="verify-card" id="finderForm" style="display:none;">
+                <h2>🔍 Check for Matches</h2>
+                <p class="card-desc">Enter the email you used when reporting the found item to see if a match has been made.</p>
+
+                <div class="error-banner" id="finderError">
+                    <span>⚠️</span>
+                    <span id="finderErrorText">No matches found for this email.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon">📧</span>
+                        <input type="email" id="finderEmail" class="form-control"
+                               placeholder="Email you used when reporting the found item">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Verification Code <span style="color:#aaa; font-weight:400;">(optional)</span></label>
+                    <input type="text" id="finderCode" class="form-control code-input"
+                           placeholder="Your finder code e.g. AB12CD34" maxlength="8"
+                           oninput="this.value = this.value.toUpperCase()">
+                    <div class="help-text">From your found item confirmation screen</div>
+                </div>
+
+                <button class="btn btn-primary btn-submit" id="finderBtn" onclick="checkFinderMatches()">
+                    Check My Matches
+                </button>
+            </div>
+
+            <!-- Success Card (shown after successful verification) -->
+            <div class="success-card" id="successCard">
+                <div class="success-badge">✅</div>
+                <h2>Verification Successful!</h2>
+                <p>Your ownership has been confirmed. Here's how to contact the finder:</p>
+
+                <div class="contact-card" id="contactCard">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="safety-box">
+                    <h4>⚠️ Safety Tips</h4>
+                    <ul>
+                        <li>Meet in a public place on campus (library, canteen, reception)</li>
+                        <li>Bring your student ID for extra verification</li>
+                        <li>Bring a friend if possible</li>
+                        <li>Meet during daytime hours</li>
+                    </ul>
+                </div>
+
+                <button class="btn btn-primary" onclick="window.location.href='dashboard.html'" style="width:100%;">
+                    Go to Dashboard
+                </button>
+            </div>
+
+            <!-- Match Found Card (for finder) -->
+            <div class="success-card" id="matchFoundCard">
+                <div class="success-badge">🎯</div>
+                <h2>Match Found!</h2>
+                <p>Someone has reported a lost item that matches what you found. They will contact you soon.</p>
+                <div class="contact-card" id="matchInfoCard">
+                    <!-- Populated by JS -->
+                </div>
+                <button class="btn btn-primary" onclick="window.location.href='dashboard.html'" style="width:100%;">
+                    View Dashboard
+                </button>
+            </div>
+
+            <!-- Help Section -->
+            <div class="help-section">
+                <h3>Need Help?</h3>
+                <div class="help-grid">
+                    <div class="help-item">
+                        <div class="help-icon">🔑</div>
+                        <div>
+                            <h4>Lost your verification code?</h4>
+                            <p>Check your email for the confirmation message, or visit your dashboard to see your reported items and codes.</p>
+                        </div>
+                    </div>
+                    <div class="help-item">
+                        <div class="help-icon">🕒</div>
+                        <div>
+                            <h4>No matches yet?</h4>
+                            <p>Matches appear automatically when someone reports a found item similar to yours. Check back in a few hours.</p>
+                        </div>
+                    </div>
+                    <div class="help-item">
+                        <div class="help-icon">🔒</div>
+                        <div>
+                            <h4>Account locked?</h4>
+                            <p>After 3 failed attempts, a claim is locked for security. Visit your dashboard or contact support.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Lost & Found. Helping reunite people with their belongings.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/verify.js"></script>
+    <script>
+        let failedAttempts = 0;
+        const MAX_ATTEMPTS = 3;
+
+        // Read URL param to auto-set role
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = new URLSearchParams(window.location.search).get('role');
+            const matchId = new URLSearchParams(window.location.search).get('match');
+
+            if (role === 'finder') {
+                setRole('finder');
+                // Pre-fill email if saved
+                const savedEmail = localStorage.getItem('userEmail');
+                if (savedEmail) document.getElementById('finderEmail').value = savedEmail;
+            } else {
+                setRole('claimer');
+            }
+
+            // If came from dashboard with a match ID, pre-fill and show claimer
+            if (matchId) {
+                setRole('claimer');
+                document.getElementById('claimCode').focus();
+            }
+
+            // Pre-fill email for claimer too
+            const savedEmail = localStorage.getItem('userEmail');
+            if (savedEmail && !document.getElementById('claimEmail').value) {
+                document.getElementById('claimEmail').value = savedEmail;
+            }
+
+            updateAttemptDots();
+        });
+
+        function setRole(role) {
+            document.getElementById('roleClaimer').classList.toggle('active', role === 'claimer');
+            document.getElementById('roleFinder').classList.toggle('active', role === 'finder');
+            document.getElementById('claimerForm').style.display = role === 'claimer' ? 'block' : 'none';
+            document.getElementById('finderForm').style.display  = role === 'finder'  ? 'block' : 'none';
+            // Hide result cards when switching
+            document.getElementById('successCard').classList.remove('show');
+            document.getElementById('matchFoundCard').classList.remove('show');
+        }
+
+        function updateAttemptDots() {
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById('dot' + i);
+                if (dot) dot.classList.toggle('used', i <= failedAttempts);
+            }
+        }
+
+        function submitClaim() {
+            const code   = document.getElementById('claimCode').value.trim().toUpperCase();
+            const email  = document.getElementById('claimEmail').value.trim();
+            const secret = document.getElementById('claimSecret').value.trim();
+            const errorEl = document.getElementById('claimError');
+            const errorText = document.getElementById('claimErrorText');
+
+            errorEl.classList.remove('show');
+
+            if (!code || code.length !== 8) {
+                errorText.textContent = 'Please enter your 8-character verification code.';
+                errorEl.classList.add('show');
+                document.getElementById('claimCode').focus();
+                return;
+            }
+            if (!email || !email.includes('@')) {
+                errorText.textContent = 'Please enter a valid email address.';
+                errorEl.classList.add('show');
+                return;
+            }
+            if (!secret) {
+                errorText.textContent = 'Please enter your secret answer.';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            const btn = document.getElementById('claimBtn');
+            btn.textContent = 'Verifying...';
+            btn.disabled = true;
+
+            fetch('php/verify_claim.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    verification_code: code,
+                    email: email,
+                    secret_answer: secret
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                btn.textContent = 'Verify & Claim Item';
+                btn.disabled = false;
+
+                if (data.success) {
+                    showSuccess(data.finder_info);
+                } else {
+                    failedAttempts++;
+                    updateAttemptDots();
+                    errorText.textContent = data.error || 'Verification failed. Please check your details.';
+                    errorEl.classList.add('show');
+
+                    if (failedAttempts >= MAX_ATTEMPTS) {
+                        btn.disabled = true;
+                        btn.textContent = '🔒 Locked — Too many attempts';
+                        errorText.textContent = 'This claim has been locked after 3 failed attempts. Please contact support.';
+                    }
+                }
+            })
+            .catch(() => {
+                btn.textContent = 'Verify & Claim Item';
+                btn.disabled = false;
+                errorText.textContent = 'Network error. Make sure you are on http://localhost/trackify/ and XAMPP is running.';
+                errorEl.classList.add('show');
+            });
+        }
+
+        function checkFinderMatches() {
+            const email = document.getElementById('finderEmail').value.trim();
+            const errorEl = document.getElementById('finderError');
+            const errorText = document.getElementById('finderErrorText');
+
+            errorEl.classList.remove('show');
+
+            if (!email || !email.includes('@')) {
+                errorText.textContent = 'Please enter a valid email address.';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            const btn = document.getElementById('finderBtn');
+            btn.textContent = 'Checking...';
+            btn.disabled = true;
+
+            fetch(`php/get_matches.php?email=${encodeURIComponent(email)}`)
+            .then(r => r.json())
+            .then(data => {
+                btn.textContent = 'Check My Matches';
+                btn.disabled = false;
+
+                const matches = data.matches || [];
+                const claimedMatches = matches.filter(m => m.status === 'claimed' || m.match_status === 'claimed');
+
+                if (claimedMatches.length > 0) {
+                    showMatchFound(claimedMatches[0]);
+                } else if (matches.length > 0) {
+                    errorText.textContent = `${matches.length} potential match(es) found! The owner has been notified. Check your dashboard for updates.`;
+                    errorEl.style.background = '#d4edda';
+                    errorEl.style.borderColor = '#c3e6cb';
+                    errorEl.style.color = '#155724';
+                    errorEl.classList.add('show');
+                } else {
+                    errorText.textContent = 'No matches yet for your found items. Check back later.';
+                    errorEl.classList.add('show');
+                }
+            })
+            .catch(() => {
+                btn.textContent = 'Check My Matches';
+                btn.disabled = false;
+                errorText.textContent = 'Network error. Make sure XAMPP is running.';
+                errorEl.classList.add('show');
+            });
+        }
+
+        function showSuccess(finderInfo) {
+            // Hide forms
+            document.getElementById('claimerForm').style.display = 'none';
+            document.getElementById('roleSelector').style.display = 'none';
+
+            // Populate contact card
+            const card = document.getElementById('contactCard');
+            card.innerHTML = `
+                <h4>📞 Finder's Contact</h4>
+                <div class="contact-row">
+                    <span class="label">Name</span>
+                    <span class="value">${finderInfo.contact_name || 'N/A'}</span>
+                </div>
+                <div class="contact-row">
+                    <span class="label">Email</span>
+                    <span class="value">${finderInfo.contact_email || 'N/A'}</span>
+                </div>
+                ${finderInfo.contact_phone ? `
+                <div class="contact-row">
+                    <span class="label">Phone</span>
+                    <span class="value">${finderInfo.contact_phone}</span>
+                </div>` : ''}
+                ${finderInfo.storage_location ? `
+                <div class="contact-row">
+                    <span class="label">Item at</span>
+                    <span class="value">${finderInfo.storage_location}</span>
+                </div>` : ''}
+            `;
+
+            document.getElementById('successCard').classList.add('show');
+            document.getElementById('successCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showMatchFound(match) {
+            document.getElementById('finderForm').style.display = 'none';
+            document.getElementById('roleSelector').style.display = 'none';
+
+            const card = document.getElementById('matchInfoCard');
+            card.innerHTML = `
+                <h4>🎯 Match Details</h4>
+                <div class="contact-row">
+                    <span class="label">Item</span>
+                    <span class="value">${match.itemName || match.lost_item_name || 'N/A'}</span>
+                </div>
+                <div class="contact-row">
+                    <span class="label">Score</span>
+                    <span class="value">${match.matchScore || match.match_score || 'N/A'}% confidence</span>
+                </div>
+                <div class="contact-row">
+                    <span class="label">Status</span>
+                    <span class="value" style="color:#27ae60; font-weight:600;">✅ Claimed</span>
+                </div>
+            `;
+
+            document.getElementById('matchFoundCard').classList.add('show');
+            document.getElementById('matchFoundCard').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

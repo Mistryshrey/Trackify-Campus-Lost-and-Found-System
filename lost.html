@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Lost Item - Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" style=" margin-top: 25px; height: 69px; width: 150px;"></a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="lost.html" class="active">Report Lost</a></li>
+                    <li><a href="found.html">Report Found</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="verify.html">Verify / Claim</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <div class="form-header">
+                <h1>Report a Lost Item</h1>
+                <p>Help us help you find your lost item. Fill out the form below with as much detail as possible.</p>
+            </div>
+
+            <!-- Form Steps Indicator -->
+            <div class="form-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Basic Info</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Details</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Location & Contact</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Review & Submit</div>
+                </div>
+            </div>
+
+            <form id="lostItemForm" novalidate>
+                <!-- Step 1: Basic Information -->
+                <div class="form-section active" id="step1">
+                    <h3>What did you lose?</h3>
+                    
+                    <div class="form-group">
+                        <label class="required">Item Category</label>
+                        <div class="category-select">
+                            <div class="category-option" data-category="electronics">
+                                <span class="category-icon">📱</span>
+                                <span class="category-name">Electronics</span>
+                            </div>
+                            <div class="category-option" data-category="clothing">
+                                <span class="category-icon">👕</span>
+                                <span class="category-name">Clothing</span>
+                            </div>
+                            <div class="category-option" data-category="accessories">
+                                <span class="category-icon">👜</span>
+                                <span class="category-name">Accessories</span>
+                            </div>
+                            <div class="category-option" data-category="documents">
+                                <span class="category-icon">📄</span>
+                                <span class="category-name">Documents</span>
+                            </div>
+                            <div class="category-option" data-category="keys">
+                                <span class="category-icon">🔑</span>
+                                <span class="category-name">Keys</span>
+                            </div>
+                            <div class="category-option" data-category="books">
+                                <span class="category-icon">📚</span>
+                                <span class="category-name">Books</span>
+                            </div>
+                            <div class="category-option" data-category="bags">
+                                <span class="category-icon">🎒</span>
+                                <span class="category-name">Bags</span>
+                            </div>
+                            <div class="category-option" data-category="jewelry">
+                                <span class="category-icon">💍</span>
+                                <span class="category-name">Jewelry</span>
+                            </div>
+                            <div class="category-option" data-category="other">
+                                <span class="category-icon">❓</span>
+                                <span class="category-name">Other</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemName" class="required">Item Name</label>
+                        <input type="text" id="itemName" class="form-control" placeholder="e.g., iPhone 13, Black Wallet, Car Keys" required>
+                        <div class="error-message">Please enter the item name</div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <div></div> <!-- Spacer -->
+                        <button type="button" class="btn btn-primary btn-next">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Item Details -->
+                <div class="form-section" id="step2">
+                    <h3>Tell us more about the item</h3>
+                    
+                    <div class="form-group">
+                        <label for="itemDescription" class="required">Description</label>
+                        <textarea id="itemDescription" class="form-control" placeholder="Describe the item in detail. Include any unique features, damage, or identifying marks..." required></textarea>
+                        <div class="error-message">Please provide a description</div>
+                    </div>
+
+                   <!-- Replace the existing color field section with this -->
+<div class="form-group">
+    <label for="itemColor" class="required">Color</label>
+    <input type="text" id="itemColor" class="form-control" placeholder="e.g., Black, Red, Blue, Multi-color" required>
+    <div class="error-message">Please specify the color</div>
+</div>
+
+<!-- 🔐 NEW: Category-Specific Verification Fields (Dynamic) -->
+<div id="categorySpecificFields" style="display: none;">
+    <!-- Documents / ID Card Fields -->
+    <div id="documentsFields" class="category-fields" style="display: none;">
+        <div class="form-group">
+            <label for="enrollmentNumber" class="required">📋 Enrollment Number (on your ID card)</label>
+            <input type="text" id="enrollmentNumber" class="form-control" 
+                   placeholder="e.g., 2024CS001" maxlength="20">
+            <div class="help-text">This will be used to verify you're the real owner</div>
+            <div class="error-message">Please enter your enrollment number</div>
+        </div>
+    </div>
+    
+    <!-- Electronics / Phone Fields -->
+    <div id="electronicsFields" class="category-fields" style="display: none;">
+        <div class="form-group">
+            <label for="imeiLastFour" class="required">📱 Last 4 digits of IMEI number</label>
+            <input type="text" id="imeiLastFour" class="form-control" 
+                   placeholder="Last 4 digits" maxlength="4" pattern="[0-9]{4}">
+            <div class="help-text">Find IMEI by dialing *#06# on your phone</div>
+            <div class="error-message">Please enter last 4 digits of IMEI</div>
+        </div>
+        <div class="form-group">
+            <label for="phoneModel">Phone Model</label>
+            <input type="text" id="phoneModel" class="form-control" placeholder="e.g., iPhone 14, Samsung S23">
+        </div>
+    </div>
+    
+    <!-- Laptop Fields -->
+    <div id="laptopFields" class="category-fields" style="display: none;">
+        <div class="form-group">
+            <label for="serialNumber" class="required">💻 Serial Number (on bottom of laptop)</label>
+            <input type="text" id="serialNumber" class="form-control" 
+                   placeholder="Enter serial number" maxlength="30">
+            <div class="help-text">Usually found on a sticker at the bottom</div>
+            <div class="error-message">Please enter serial number</div>
+        </div>
+    </div>
+    
+    <!-- Wallet Fields -->
+    <div id="walletFields" class="category-fields" style="display: none;">
+        <div class="form-group">
+            <label for="cardCount" class="required">💳 How many cards were in the wallet?</label>
+            <input type="number" id="cardCount" class="form-control" 
+                   placeholder="Number of cards" min="1" max="20">
+            <div class="error-message">Please enter number of cards</div>
+        </div>
+        <div class="form-group">
+            <label for="walletBrand">Wallet Brand/Color combo</label>
+            <input type="text" id="walletBrand" class="form-control" placeholder="e.g., Black Leather, Brown Fossil">
+        </div>
+    </div>
+    
+    <!-- Keys Fields -->
+    <div id="keysFields" class="category-fields" style="display: none;">
+        <div class="form-group">
+            <label for="keyCount" class="required">🔑 How many keys on the keyring?</label>
+            <input type="number" id="keyCount" class="form-control" 
+                   placeholder="Number of keys" min="1" max="20">
+            <div class="error-message">Please enter number of keys</div>
+        </div>
+        <div class="form-group">
+            <label for="keychainDetail">Any keychain or unique detail?</label>
+            <input type="text" id="keychainDetail" class="form-control" 
+                   placeholder="e.g., Has a red keychain, Car key attached">
+        </div>
+    </div>
+    
+    <!-- Generic Secret Field (for all other items) -->
+    <div id="genericSecretField" style="display: none;">
+        <div class="form-group">
+            <label for="genericSecret" class="required">🔐 Unique detail about your item</label>
+            <input type="text" id="genericSecret" class="form-control" 
+                   placeholder="e.g., Has a scratch on left side, Sticker of Batman, Name written inside">
+            <div class="help-text">Only YOU would know this detail - keep it secret!</div>
+            <div class="error-message">Please provide a unique detail</div>
+        </div>
+    </div>
+</div>
+
+                    <div class="form-group">
+                        <label for="itemBrand">Brand</label>
+                        <input type="text" id="itemBrand" class="form-control" placeholder="e.g., Apple, Samsung, Nike">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemModel">Model/Size</label>
+                        <input type="text" id="itemModel" class="form-control" placeholder="e.g., Pro Max, Size 10, 2022 Model">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemImage">Upload Photo (Optional)</label>
+                        <div class="file-upload">
+                            <div class="file-upload-icon">📷</div>
+                            <p>Click to upload or drag and drop</p>
+                            <p class="help-text">PNG, JPG up to 5MB</p>
+                            <input type="file" id="itemImage" accept="image/*">
+                        </div>
+                        <div class="file-preview" id="imagePreview"></div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary btn-prev">Previous</button>
+                        <button type="button" class="btn btn-primary btn-next">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Location & Contact -->
+                <div class="form-section" id="step3">
+                    <h3>Where and when did you lose it?</h3>
+                    
+                    <div class="form-group">
+                        <label for="lostLocation" class="required">Location Where Lost</label>
+                        <input type="text" id="lostLocation" class="form-control" placeholder="e.g., Main Library, Room 205, Parking Lot B" required>
+                        <div class="error-message">Please specify the location</div>
+                    </div>
+
+                    <div class="datetime-group">
+                        <div class="form-group">
+                            <label for="lostDate" class="required">Date Lost</label>
+                            <input type="date" id="lostDate" class="form-control" required>
+                            <div class="error-message">Please select the date</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lostTime" class="required">Approximate Time</label>
+                            <input type="time" id="lostTime" class="form-control" required>
+                            <div class="error-message">Please specify the time</div>
+                        </div>
+                    </div>
+
+                    <h4>Your Contact Information</h4>
+                    
+                    <div class="form-group">
+                        <label for="contactName" class="required">Your Name</label>
+                        <input type="text" id="contactName" class="form-control" placeholder="Enter your full name" required>
+                        <div class="error-message">Please enter your name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactEmail" class="required">Email Address</label>
+                        <input type="email" id="contactEmail" class="form-control" placeholder="your.email@example.com" required>
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactPhone">Phone Number (Optional)</label>
+                        <input type="tel" id="contactPhone" class="form-control" placeholder="(555) 123-4567">
+                        <div class="error-message">Please enter a valid phone number</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalInfo">Additional Information</label>
+                        <textarea id="additionalInfo" class="form-control" placeholder="Any other details that might help identify your item..."></textarea>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary btn-prev">Previous</button>
+                        <button type="button" class="btn btn-primary btn-next">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review & Submit -->
+                <div class="form-section" id="step4">
+                    <h3>Review Your Information</h3>
+                    <p>Please review all the information below before submitting.</p>
+                    
+                    <div id="reviewContent">
+                        <!-- Dynamically populated by JavaScript -->
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <label for="agreeTerms" class="required">
+                                I confirm that all information provided is accurate to the best of my knowledge
+                            </label>
+                        </div>
+                        <div class="error-message">You must agree to continue</div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary btn-prev">Previous</button>
+                        <button type="submit" class="btn btn-primary">Submit Report</button>
+                    </div>
+                </div>
+
+                <!-- Confirmation Section -->
+                <div class="form-section" id="confirmationSection" style="display: none;">
+                    <div class="confirmation-section">
+                        <div class="confirmation-icon">✅</div>
+                        <div class="confirmation-message">
+                            <h3>Lost Item Report Submitted!</h3>
+                            <p>Your item has been added to our system. We'll notify you if a match is found.</p>
+                            
+                            <div class="confirmation-code">
+                                Your Verification Code: 
+                                <strong id="confirmationCode">XXXX-XXXX</strong>
+                            </div>
+                            
+                            <p class="help-text">
+                                <strong>Important:</strong> Save this code! You'll need it to claim your item if found.
+                            </p>
+                        </div>
+
+                        <div class="confirmation-actions">
+                            <a href="dashboard.html" class="btn btn-primary">View Dashboard</a>
+                            <a href="verify.html?role=claimer" class="btn btn-secondary">Claim My Item</a>
+                            <a href="index.html" class="btn btn-outline">Return Home</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Lost & Found. Helping reunite people with their belongings.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/lost.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const categoryOptions = document.querySelectorAll('.category-option');
+    const categoryFieldsDiv = document.getElementById('categorySpecificFields');
+    
+    function showCategoryFields(category) {
+        document.querySelectorAll('.category-fields').forEach(field => {
+            field.style.display = 'none';
+        });
+        document.getElementById('genericSecretField').style.display = 'none';
+        
+        switch(category) {
+            case 'documents':
+                document.getElementById('documentsFields').style.display = 'block';
+                break;
+            case 'electronics':
+                document.getElementById('electronicsFields').style.display = 'block';
+                break;
+            case 'accessories':
+                // For wallet specifically
+                const walletField = document.getElementById('walletFields');
+                if (walletField) walletField.style.display = 'block';
+                else document.getElementById('genericSecretField').style.display = 'block';
+                break;
+            case 'keys':
+                document.getElementById('keysFields').style.display = 'block';
+                break;
+            case 'bags':
+            case 'clothing':
+            case 'books':
+            case 'jewelry':
+            case 'other':
+            default:
+                document.getElementById('genericSecretField').style.display = 'block';
+                break;
+        }
+        
+        categoryFieldsDiv.style.display = 'block';
+    }
+    
+    // Watch for category selection
+    categoryOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const category = this.dataset.category;
+            showCategoryFields(category);
+        });
+    });
+});
+</script>
+</body>
+</html>

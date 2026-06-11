@@ -1,0 +1,38 @@
+/* index.css — Homepage specific styles */
+@import url('style.css');
+
+/* Hero enhancements for homepage */
+.hero { min-height: 85vh; display: flex; align-items: center; justify-content: center; }
+
+/* How it works steps */
+.how-it-works { padding: 70px 0; background: var(--light-color); }
+.how-it-works h2 { text-align: center; font-size: 2.2rem; margin-bottom: 50px; color: var(--dark-color); }
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; position: relative; }
+.step-card {
+    text-align: center; padding: 35px 20px;
+    background: white; border-radius: var(--border-radius); box-shadow: var(--shadow);
+    transition: transform var(--transition);
+}
+.step-card:hover { transform: translateY(-6px); }
+.step-number {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--primary-color); color: white;
+    font-size: 1.3rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+}
+.step-card h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--dark-color); }
+.step-card p  { color: var(--gray-color); font-size: 0.9rem; }
+
+/* Stats on homepage */
+.stat h3 { animation: countUp 1s ease-out; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.feature-card { animation: fadeInUp 0.5s ease both; }
+.feature-card:nth-child(1) { animation-delay: 0.1s; }
+.feature-card:nth-child(2) { animation-delay: 0.2s; }
+.feature-card:nth-child(3) { animation-delay: 0.3s; }

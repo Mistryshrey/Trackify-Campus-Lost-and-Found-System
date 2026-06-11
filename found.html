@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Found Item - Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" style=" margin-top: 25px; height: 69px; width: 150px;"></a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="lost.html">Report Lost</a></li>
+                    <li><a href="found.html" class="active">Report Found</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="verify.html">Verify / Claim</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <div class="form-header">
+                <h1>Report a Found Item</h1>
+                <p>Help reunite lost items with their owners. Provide as much detail as possible about the item you found.</p>
+            </div>
+
+            <!-- Form Steps Indicator -->
+            <div class="form-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Basic Info</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Details</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Location & Contact</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Review & Submit</div>
+                </div>
+            </div>
+
+            <form id="lostItemForm" novalidate>
+                <!-- Step 1: Basic Information -->
+                <div class="form-section active" id="step1">
+                    <h3>What did you find?</h3>
+                    
+                    <div class="form-group">
+                        <label class="required">Item Category</label>
+                        <div class="category-select">
+                            <div class="category-option" data-category="electronics">
+                                <span class="category-icon">📱</span>
+                                <span class="category-name">Electronics</span>
+                            </div>
+                            <div class="category-option" data-category="clothing">
+                                <span class="category-icon">👕</span>
+                                <span class="category-name">Clothing</span>
+                            </div>
+                            <div class="category-option" data-category="accessories">
+                                <span class="category-icon">👜</span>
+                                <span class="category-name">Accessories</span>
+                            </div>
+                            <div class="category-option" data-category="documents">
+                                <span class="category-icon">📄</span>
+                                <span class="category-name">Documents</span>
+                            </div>
+                            <div class="category-option" data-category="keys">
+                                <span class="category-icon">🔑</span>
+                                <span class="category-name">Keys</span>
+                            </div>
+                            <div class="category-option" data-category="books">
+                                <span class="category-icon">📚</span>
+                                <span class="category-name">Books</span>
+                            </div>
+                            <div class="category-option" data-category="bags">
+                                <span class="category-icon">🎒</span>
+                                <span class="category-name">Bags</span>
+                            </div>
+                            <div class="category-option" data-category="jewelry">
+                                <span class="category-icon">💍</span>
+                                <span class="category-name">Jewelry</span>
+                            </div>
+                            <div class="category-option" data-category="other">
+                                <span class="category-icon">❓</span>
+                                <span class="category-name">Other</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foundItemName" class="required">Item Name</label>
+                        <input type="text" id="foundItemName" class="form-control" placeholder="e.g., Black Wallet, Silver Keys, Water Bottle" required>
+                        <div class="error-message">Please enter the item name</div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <div></div> <!-- Spacer -->
+                        <button type="button" class="btn btn-primary btn-next">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Item Details -->
+                <div class="form-section" id="step2">
+                    <h3>Tell us more about the item</h3>
+                    
+                    <div class="form-group">
+                        <label for="foundItemDescription" class="required">Description</label>
+                        <textarea id="foundItemDescription" class="form-control" placeholder="Describe the item in detail. Include any unique features, brand names, condition..." required></textarea>
+                        <div class="error-message">Please provide a description</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foundItemColor" class="required">Color</label>
+                        <input type="text" id="foundItemColor" class="form-control" placeholder="e.g., Black, Red, Blue, Silver" required>
+                        <div class="error-message">Please specify the color</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foundItemBrand">Brand</label>
+                        <input type="text" id="foundItemBrand" class="form-control" placeholder="e.g., Apple, Nike, Samsung">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foundItemModel">Model/Size</label>
+                        <input type="text" id="foundItemModel" class="form-control" placeholder="e.g., Pro, Size Medium, 2023">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foundItemImage">Upload Photo (Optional)</label>
+                        <div class="file-upload">
+                            <div class="file-upload-icon">📷</div>
+                            <p>Click to upload or drag and drop</p>
+                            <p class="help-text">PNG, JPG up to 5MB</p>
+                            <input type="file" id="foundItemImage" accept="image/*">
+                        </div>
+                        <div class="file-preview" id="foundImagePreview"></div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary btn-prev">Previous</button>
+                        <button type="button" class="btn btn-primary btn-next">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Location & Contact -->
+                <div class="form-section" id="step3">
+                    <h3>Where and when did you find it?</h3>
+                    
+                    <div class="form-group">
+                        <label for="foundLocation" class="required">Location Where Found</label>
+                        <input type="text" id="foundLocation" class="form-control" placeholder="e.g., Student Center, Room 101, Parking Lot A" required>
+                        <div class="error-message">Please specify the location</div>
+                    </div>
+
+                    <div class="datetime-group">
+                        <div class="form-group">
+                            <label for="foundDate" class="required">Date Found</label>
+                            <input type="date" id="foundDate" class="form-control" required>
+                            <div class="error-message">Please select the date</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="foundTime" class="required">Approximate Time</label>
+                            <input type="time" id="foundTime" class="form-control" required>
+                            <div class="error-message">Please specify the time</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemStorageLocation">Current Storage Location</label>
+                        <select id="itemStorageLocation" class="form-control">
+                            <option value="">Select where the item is stored</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+
+                    <div id="otherLocationGroup" style="display: none;">
+                        <div class="form-group">
+                            <label for="otherStorageLocation">Specify Storage Location</label>
+                            <input type="text" id="otherStorageLocation" class="form-control" placeholder="e.g., My office, Home address, etc.">
+                        </div>
+                    </div>
+
+                    <h4>Your Contact Information</h4>
+                    
+                    <div class="form-group">
+                        <label for="foundContactName" class="required">Your Name</label>
+                        <input type="text" id="foundContactName" class="form-control" placeholder="Enter your full name" required>
+                        <div class="error-message">Please enter your name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foundContactEmail" class="required">Email Address</label>
+                        <input type="email" id="foundContactEmail" class="form-control" placeholder="your.email@example.com" required>
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foundContactPhone">Phone Number (Optional)</label>
+                        <input type="tel" id="foundContactPhone" class="form-control" placeholder="(555) 123-4567">
+                        <div class="error-message">Please enter a valid phone number</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foundAdditionalInfo">Additional Information</label>
+                        <textarea id="foundAdditionalInfo" class="form-control" placeholder="Any other details about how you found the item or special instructions for claiming..."></textarea>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary btn-prev">Previous</button>
+                        <button type="button" class="btn btn-primary btn-next">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review & Submit -->
+                <div class="form-section" id="step4">
+                    <h3>Review Your Information</h3>
+                    <p>Please review all the information below before submitting.</p>
+                    
+                    <div id="foundReviewContent">
+                        <!-- Dynamically populated by JavaScript -->
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="foundAgreeTerms" required>
+                            <label for="foundAgreeTerms" class="required">
+                                I confirm that I have found this item and will make it available for the rightful owner to claim
+                            </label>
+                        </div>
+                        <div class="error-message">You must agree to continue</div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary btn-prev">Previous</button>
+                        <button type="submit" class="btn btn-primary">Submit Found Item</button>
+                    </div>
+                </div>
+
+                <!-- Confirmation Section -->
+                <div class="form-section" id="foundConfirmationSection" style="display: none;">
+                    <div class="confirmation-section">
+                        <div class="confirmation-icon">✅</div>
+                        <div class="confirmation-message">
+                            <h3>Found Item Report Submitted!</h3>
+                            <p>Thank you for helping reunite this item with its owner. We'll notify you if a match is found.</p>
+                            
+                            <div class="confirmation-code">
+                                Your Verification Code: 
+                                <strong id="foundConfirmationCode">XXXX-XXXX</strong>
+                            </div>
+                            
+                            <p class="help-text">
+                                <strong>Important:</strong> Save this code! The owner will need to provide matching details to claim the item.
+                            </p>
+                        </div>
+
+                        <div class="confirmation-actions">
+                            <a href="dashboard.html" class="btn btn-primary">View Dashboard</a>
+                            <a href="verify.html?role=finder" class="btn btn-secondary">Check for Matches</a>
+                            <a href="index.html" class="btn btn-outline">Return Home</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Lost & Found. Helping reunite people with their belongings.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/found.js"></script>
+</body>
+</html>

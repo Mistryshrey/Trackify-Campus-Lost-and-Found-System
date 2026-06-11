@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" style=" margin-top: 25px; height: 69px; width: 150px;"></a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="lost.html">Report Lost</a></li>
+                    <li><a href="found.html">Report Found</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="verify.html">Verify / Claim</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Find What You've Lost</h1>
+                <p>Connect lost items with their owners through our community-powered platform</p>
+                <div class="hero-buttons">
+                    <a href="lost.html" class="btn btn-primary">I Lost Something</a>
+                    <a href="found.html" class="btn btn-secondary">I Found Something</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📝</div>
+                        <h3>Report</h3>
+                        <p>Report a lost or found item with details and photos</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Match</h3>
+                        <p>Our system automatically matches lost and found items</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✅</div>
+                        <h3>Verify</h3>
+                        <p>Secure verification process to ensure items go to rightful owners</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat">
+                        <h3 id="lostCount">0</h3>
+                        <p>Items Lost</p>
+                    </div>
+                    <div class="stat">
+                        <h3 id="foundCount">0</h3>
+                        <p>Items Found</p>
+                    </div>
+                    <div class="stat">
+                        <h3 id="matchedCount">0</h3>
+                        <p>Successful Matches</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Lost & Found. Helping reunite people with their belongings.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* ============================================
+           ABOUT PAGE – SPECIFIC STYLES ONLY
+           (Classes not present in style.css / form.css / responsive.css)
+        ============================================ */
+
+        /* About Hero — matches index.html .hero exactly */
+        .about-hero {
+            background: linear-gradient(135deg, var(--dark-color) 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(232,119,34,0.08) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%       { transform: scale(1.05); }
+        }
+
+        .about-hero .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .about-hero p {
+            font-size: 1.2rem;
+            opacity: 0.85;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #ccc;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .mission-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: black;
+        }
+
+        .mission-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .mission-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .mission-stat {
+            text-align: center;
+        }
+
+        .mission-stat h3 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .mission-stat p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin: 0;
+            color: black;
+        }
+
+        .mission-image {
+            text-align: center;
+        }
+
+        .placeholder-image {
+            font-size: 8rem;
+            opacity: 0.7;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 0;
+            background: var(--light-color);
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: var(--dark-color);
+        }
+
+        .process-steps {
+            display: grid;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* NOTE: .step-number already exists in form.css for the multi-step form.
+           The about page uses a larger 80x80 variant, so we override it here. */
+        .process-step .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .step-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .step-content p {
+            line-height: 1.6;
+            color: #ffffff;
+        }
+
+        /* Features Section (about-page wrapper — .features-grid & .feature-card come from style.css) */
+        .features-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .features-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: black;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 80px 0;
+            background: var(--light-color);
+        }
+
+        .team-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .team-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gray-color);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            text-align: center;
+            background: var(--white);
+            padding: 40px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .member-photo {
+            margin-bottom: 25px;
+        }
+
+        .placeholder-avatar {
+            font-size: 4rem;
+            margin: 0 auto;
+        }
+
+        .team-member h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+
+        .member-role {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .member-bio {
+            color: var(--gray-color);
+            line-height: 1.6;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: black;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--light-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+        }
+
+        .faq-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .faq-item p {
+            color: var(--gray-color);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 0;
+            background: var(--light-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .contact-info > p {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 40px;
+        }
+
+        .contact-methods {
+            margin-bottom: 40px;
+        }
+
+        .contact-method {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .method-icon {
+            font-size: 2rem;
+        }
+
+        .method-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--dark-color);
+        }
+
+        .method-info p {
+            margin: 0;
+            color: var(--gray-color);
+        }
+
+        .social-links h4 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: scale(1.2);
+        }
+
+        /* Contact Form card (distinct from .form-container in style.css) */
+        .contact-form {
+            background: black;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .contact-form label {
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+
+        .contact-form h3 {
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+
+        /* Rich Footer (about page has a multi-column footer unlike index.html) */
+        /* Override style.css footer color bug: rgba(0,0,0,0.7) is invisible on dark-color bg */
+        footer {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ============================================
+           ABOUT PAGE – RESPONSIVE OVERRIDES
+        ============================================ */
+        @media (max-width: 768px) {
+            .mission-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .mission-stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .process-step {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .process-step .step-number {
+                margin: 0 auto 20px auto;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" style="margin-top: 25px; height: 69px; width: 150px;"></a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="lost.html">Report Lost</a></li>
+                    <li><a href="found.html">Report Found</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="verify.html">Verify / Claim</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>About Lost & Found</h1>
+                    <p>Connecting lost items with their owners through community power and smart technology</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="mission-section">
+            <div class="container">
+                <div class="mission-grid">
+                    <div class="mission-content">
+                        <h2>Our Mission</h2>
+                        <p>Lost & Found was created with a simple but powerful goal: to make it easier for people to be reunited with their lost belongings. We believe that technology can bridge the gap between lost items and their rightful owners, creating a more connected and helpful community.</p>
+
+                        <div class="mission-stats">
+                            <div class="mission-stat">
+                                <h3>1000+</h3>
+                                <p>Items Reunited</p>
+                            </div>
+                            <div class="mission-stat">
+                                <h3>95%</h3>
+                                <p>User Satisfaction</p>
+                            </div>
+                            <div class="mission-stat">
+                                <h3>24/7</h3>
+                                <p>Automatic Matching</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mission-image">
+                        <div class="placeholder-image">
+                            🎯
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Report</h3>
+                            <p>Users report lost or found items with detailed descriptions, photos, and location information.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Match</h3>
+                            <p>Our intelligent algorithm automatically matches lost and found items based on multiple factors including category, description, location, and time.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Verify</h3>
+                            <p>Secure verification process ensures items are returned to their rightful owners through unique verification codes.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Reunite</h3>
+                            <p>Owners and finders connect safely to arrange item return, completing the reunification process.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <h2>Why Choose Lost & Found?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure & Private</h3>
+                        <p>Your personal information is protected. Contact details are only shared after successful verification.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Smart Matching</h3>
+                        <p>Advanced algorithm considers multiple factors to find the best possible matches automatically.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Fast & Efficient</h3>
+                        <p>Real-time matching and notifications ensure quick reunification of items with their owners.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3>Community Powered</h3>
+                        <p>Leveraging the power of community to help more people recover their lost belongings.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Easy to Use</h3>
+                        <p>Simple, intuitive interface designed for everyone regardless of technical expertise.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🆓</div>
+                        <h3>Completely Free</h3>
+                        <p>No charges for reporting, matching, or claiming items. We believe in helping communities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section" id="faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>How does the matching algorithm work?</h3>
+                        <p>Our algorithm compares lost and found items based on category, description similarity, color, location proximity, and time factors. It assigns a match score and notifies users when high-confidence matches are found.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is my personal information safe?</h3>
+                        <p>Yes! We only share contact information after successful verification. Your email and phone number are never publicly displayed and are only shared with matched users.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What if I lost my verification code?</h3>
+                        <p>You can access your verification codes through your dashboard. If you're still having trouble, contact our support team for assistance.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How long does matching take?</h3>
+                        <p>Matching runs automatically every 30 seconds. However, it depends on whether similar found items have been reported. Some matches happen instantly, while others may take longer.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What items can I report?</h3>
+                        <p>You can report any lost or found item! Common categories include electronics, clothing, accessories, documents, keys, books, bags, jewelry, and more.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is this service really free?</h3>
+                        <p>Absolutely! Lost & Found is completely free to use. We believe in helping communities and don't charge for reuniting people with their belongings.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2>Get In Touch</h2>
+                        <p>Have questions or need support? We're here to help!</p>
+
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="method-icon">📧</div>
+                                <div class="method-info">
+                                    <h4>Email Us</h4>
+                                    <p><a>mistryshrey06@gmail.com</a></p>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <div class="method-icon">📞</div>
+                                <div class="method-info">
+                                    <h4>Call Us</h4>
+                                    <p>+1 (555) 123-HELP</p>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <div class="method-icon">🕒</div>
+                                <div class="method-info">
+                                    <h4>Response Time</h4>
+                                    <p>Typically within 24 hours</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-links">
+                            <h4>Follow Us</h4>
+                            <div class="social-icons">
+                                <a href="#" class="social-link">📘</a>
+                                <a href="#" class="social-link">🐦</a>
+                                <a href="#" class="social-link">📷</a>
+                                <a href="#" class="social-link">💼</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <h3>Send us a Message</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="contactName" class="required">Your Name</label>
+                                <input type="text" id="contactName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail" class="required">Email Address</label>
+                                <input type="email" id="contactEmail" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactSubject" class="required">Subject</label>
+                                <select id="contactSubject" class="form-control" required>
+                                    <option value="">Select a topic</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="feature">Feature Request</option>
+                                    <option value="bug">Report a Bug</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactMessage" class="required">Message</label>
+                                <textarea id="contactMessage" class="form-control" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <img src="logo.png">
+                    </div>
+                    <p>Helping reunite people with their belongings through community power and smart technology.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="lost.html">Report Lost</a></li>
+                        <li><a href="found.html">Report Found</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="verify.html">Verification Help</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <ul>
+                            <li><a href="#">Facebook</a></li>
+                            <li><a href="#">Twitter</a></li>
+                            <li><a href="#">Instagram</a></li>
+                            <li><a href="#">LinkedIn</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lost & Found. All rights reserved. | Helping reunite people with their belongings.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/main.js"></script>
+    <script>
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if (!name || !email || !subject || !message) {
+                appUtils.showNotification('Please fill in all fields', 'error');
+                return;
+            }
+
+            if (!appUtils.validateEmail(email)) {
+                appUtils.showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+
+            appUtils.showNotification("Thank you for your message! We'll get back to you soon.", 'success');
+            this.reset();
+        });
+
+        // Smooth scroll for FAQ links
+        document.querySelectorAll('a[href="#faq"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.faq-section').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        document.querySelectorAll('a[href="#contact"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.contact-section').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
