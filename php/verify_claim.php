@@ -79,6 +79,15 @@ $updateSql = "UPDATE matches SET match_status = 'claimed', claim_date = NOW()
 $stmt = $pdo->prepare($updateSql);
 $stmt->execute([':match_id' => $matchId]);
 
+// FIX: Prevent Zombie Items by resolving the original lost and found records
+$updateLost = "UPDATE lost_items SET status = 'resolved' WHERE item_id = :lost_id";
+$stmtLost = $pdo->prepare($updateLost);
+$stmtLost->execute([':lost_id' => $match['lost_item_id']]);
+
+$updateFound = "UPDATE found_items SET status = 'resolved' WHERE item_id = :found_id";
+$stmtFound = $pdo->prepare($updateFound);
+$stmtFound->execute([':found_id' => $match['found_item_id']]);
+
 // Update this log as successful
 $successSql = "UPDATE verification_attempts SET was_successful = TRUE 
                WHERE match_id = :match_id ORDER BY attempt_id DESC LIMIT 1";

@@ -35,7 +35,16 @@ if (!empty($data['image']) && strpos($data['image'], 'data:image') === 0) {
     $imageData = str_replace(' ', '+', $imageData);
     $imageParts = explode(';base64,', $imageData);
     $imageTypeAux = explode('image/', $imageParts[0]);
-    $imageType = $imageTypeAux[1]; // jpg, png, etc.
+    $imageType = strtolower($imageTypeAux[1]); // jpg, png, etc.
+
+    // FIX: Strict Whitelist to prevent Remote Code Execution (RCE)
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    if (!in_array($imageType, $allowedTypes)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Security Error: Invalid image format. Only JPG, PNG, GIF, and WEBP are allowed.']);
+        exit;
+    }
+
     $imageBase64 = base64_decode($imageParts[1]);
 
     $uploadDir = '../uploads/found/';
@@ -51,8 +60,21 @@ if (!empty($data['image']) && strpos($data['image'], 'data:image') === 0) {
     }
 }
 
-// Generate a verification code for the finder's reference
 $verificationCode = strtoupper(substr(bin2hex(random_bytes(4)), 0, 8));
+
+// FIX: Look up or create user based on their contact email
+$userEmail = $data['contact_email'];
+$stmt = $pdo->prepare("SELECT user_id FROM users WHERE email = :email");
+$stmt->execute([':email' => $userEmail]);
+$user = $stmt->fetch();
+
+if ($user) {
+    $userId = $user['user_id'];
+} else {
+    $stmt = $pdo->prepare("INSERT INTO users (email) VALUES (:email)");
+    $stmt->execute([':email' => $userEmail]);
+    $userId = $pdo->lastInsertId();
+}
 
 $sql = "INSERT INTO found_items (
     user_id, verification_code, category, item_name, description, color,
@@ -69,7 +91,7 @@ $sql = "INSERT INTO found_items (
 try {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-        ':user_id'          => $_SESSION['user_id'] ?? 1,
+        ':user_id'          => $userId,
         ':verification_code'=> $verificationCode,
         ':category'         => $data['category'],
         ':item_name'        => $data['item_name'],
